@@ -7,10 +7,10 @@ public class TimeHop : MonoBehaviour
     public static TimeHop Instance { get; private set; }
 
     public enum TimePeriod { Morning, Afternoon, Evening }
-    public enum WeekDay { Mon, Tue, Wed, Thu, Fri, Sat, Sun }
+    public enum WeekDay { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
 
     [Header("Initial State")]
-    [SerializeField] private WeekDay startWeekday = WeekDay.Mon;
+    [SerializeField] private WeekDay startWeekday = WeekDay.Monday;
     [SerializeField] private TimePeriod startPeriod = TimePeriod.Morning;
     [SerializeField] private int startDayNumber = 0;
 
@@ -46,8 +46,14 @@ public class TimeHop : MonoBehaviour
     {
         switch (currentPeriod)
         {
-            case TimePeriod.Morning: currentPeriod = TimePeriod.Afternoon; break;
-            case TimePeriod.Afternoon: currentPeriod = TimePeriod.Evening; break;
+            case TimePeriod.Morning: 
+                currentPeriod = TimePeriod.Afternoon; 
+                break;
+
+            case TimePeriod.Afternoon: 
+                currentPeriod = TimePeriod.Evening; 
+                break;
+
             case TimePeriod.Evening:
                 currentPeriod = TimePeriod.Morning;
                 currentDayNumber++;
@@ -62,19 +68,26 @@ public class TimeHop : MonoBehaviour
     public void Advance(int hops)
     {
         int n = Mathf.Max(1, hops);
-        for (int i = 0; i < n; i++) AdvanceOne();
+        for (int i = 0; i < n; i++) 
+        { 
+            AdvanceOne(); 
+        }
     }
 
     private void RefreshUI()
     {
         if (textDayTime != null)
-            textDayTime.text = $"{currentWeekday}\nDay {currentDayNumber}\n{currentPeriod}";
+        {
+            textDayTime.text = $"{currentPeriod}\nDay {currentDayNumber}\n{currentWeekday}";
+        }
     }
 
     // แยกทริกเกอร์ออก *ได้* แต่ถ้ายังอยากอยู่ที่เดิม ใส่จำกัด tag ชัดเจน
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other != null && other.CompareTag("Player"))
+        {
             AdvanceOne();
+        }
     }
 }

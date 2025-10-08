@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -20,14 +21,20 @@ public class Player : MonoBehaviour
     private float jumpBufferTime = 0.1f;
     private float jumpBufferCounter;
 
+    public int Hp;
+    public int FullHp = 100;
+
+    public TextMeshProUGUI textHp;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Hp = 100;
     }
 
     void Update()
     {
-
+        textHp.text = $"HP {Hp} / {FullHp}";
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         _cachedMove = moveInput;
@@ -44,10 +51,21 @@ public class Player : MonoBehaviour
             if (jumpBufferCounter <= 0f) jumpQueued = false;
         }
 
+        if (Hp <= 0)
+        {
+            resetHp();
+        }
 
         // พลิกตัว
-        if (moveInput > 0 && !isFacingRight) Flip();
-        else if (moveInput < 0 && isFacingRight) Flip();
+        if (moveInput > 0 && !isFacingRight) 
+        { 
+            Flip(); 
+        }
+
+        else if (moveInput < 0 && isFacingRight) 
+        {
+            Flip(); 
+        }
     }
 
     private float _cachedMove;
@@ -72,6 +90,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    void resetHp()
+    {
+        Hp = FullHp;
+    }
+
     void Flip()
     {
         isFacingRight = !isFacingRight;
@@ -85,8 +108,7 @@ public class Player : MonoBehaviour
         if (groundCheck != null)
         {
             Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(groundCheck.position,
-                            groundCheck.position + Vector3.down * groundRayLength);
+            Gizmos.DrawLine(groundCheck.position,groundCheck.position + Vector3.down * groundRayLength);
         }
     }
 }
