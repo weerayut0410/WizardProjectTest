@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5847a182b6a67444193e11c42b526256, type: 3}
-  m_Name: Chest
+  m_Name: Storage Chest
   m_EditorClassIdentifier: 
-  itemName: Chest
+  itemName: Storage Chest
   Stack: 1
   itemType: 2

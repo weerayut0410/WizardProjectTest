@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -13,7 +14,6 @@ public class InventorySystem : MonoBehaviour
 
     void Awake()
     {
-        ClearSlots();
         slots = new List<InventorySlot>(maxSlots);
 
         // เตรียมช่องว่าง
@@ -21,6 +21,7 @@ public class InventorySystem : MonoBehaviour
         {
             slots.Add(null); // null = ช่องว่าง
         }
+        UpdateUI();
     }
 
     public bool AddItem(ItemData item, int amount)
@@ -183,5 +184,14 @@ public class InventorySystem : MonoBehaviour
 
         }
     }
+    public int GetTotalCount(ItemData item)
+    {
+        int total = 0;
+        foreach (var s in slots)
+            if (s != null && s.item == item) total += s.amount;
+        return total;
+    }
+
+
 
 }
