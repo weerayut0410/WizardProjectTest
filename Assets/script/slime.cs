@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -21,7 +22,14 @@ public class slime : MonoBehaviour
     public int Hp;
     public bool Bigslime;
 
+    private float CooldownAttack = 1.5f;
+    private float cooldownTimer;
+
     public GameObject prefab;
+
+    public TextMeshProUGUI textHp;
+
+    public Transform spriteRoot;
 
     void Awake()
     {
@@ -35,7 +43,11 @@ public class slime : MonoBehaviour
 
     void Update()
     {
+        textHp.text = $"HP {Hp}";
+
         if (player == null) return;
+
+        cooldownTimer -= Time.deltaTime;
 
         // ตรวจระยะ (ใช้ 2D)
         float dist = Vector2.Distance(transform.position, player.position);
@@ -77,6 +89,11 @@ public class slime : MonoBehaviour
             if (Mathf.Abs(dx) <= stopRange)
             {
                 vel.x = 0f;
+                if (cooldownTimer <= 0)
+                {
+                    cooldownTimer = CooldownAttack;
+                    player.GetComponent<Player>().Hp -= 10;
+                }
             }
             else
             {
@@ -96,9 +113,9 @@ public class slime : MonoBehaviour
     void Flip()
     {
         facingRight = !facingRight;
-        var s = transform.localScale;
-        s.x *= -1f;
-        transform.localScale = s;
+        Vector3 s = spriteRoot.localScale;
+        s.x *= -1;
+        spriteRoot.localScale = s;
     }
 
 #if UNITY_EDITOR

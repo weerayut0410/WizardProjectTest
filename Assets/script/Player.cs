@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using static TimeHop;
 
 public class Player : MonoBehaviour
 {
@@ -93,6 +94,7 @@ public class Player : MonoBehaviour
     void resetHp()
     {
         Hp = FullHp;
+        TimeHop.Instance.AdvanceOne();
     }
 
     void Flip()

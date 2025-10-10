@@ -7,6 +7,8 @@ public class PlayerShoot : MonoBehaviour
     public float shootCooldown = 0.5f;
     private float cooldownTimer;
 
+    public bool SaveZone=false;
+
     private bool isFacingRight = true; // ใช้ตรวจทิศที่หัน (ตาม Player)
 
     public GameObject Player;
@@ -15,7 +17,7 @@ public class PlayerShoot : MonoBehaviour
     {
         cooldownTimer -= Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0) && cooldownTimer <= 0)
+        if (Input.GetMouseButtonDown(0) && cooldownTimer <= 0 && !SaveZone)
         {
             Shoot();
             cooldownTimer = shootCooldown;

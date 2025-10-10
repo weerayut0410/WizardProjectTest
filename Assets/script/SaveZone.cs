@@ -10,8 +10,15 @@ public class SaveZone : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<Player>().Hp = 100;
+            collision.GetComponent<PlayerShoot>().SaveZone = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<PlayerShoot>().SaveZone = false;
 
         }
-
     }
 }
