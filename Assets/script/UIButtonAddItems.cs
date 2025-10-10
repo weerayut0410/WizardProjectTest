@@ -10,6 +10,12 @@ public class UIButtonAddItems : MonoBehaviour
     {
         inventory.AddItem(itemToAdd, amount);
     }
+
+    public void RemoveItem()
+    {
+        inventory.RemoveItem(itemToAdd, amount);
+    }
+
     public void ClearItem()
     {
         inventory.ClearSlots();

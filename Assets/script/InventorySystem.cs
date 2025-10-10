@@ -75,6 +75,47 @@ public class InventorySystem : MonoBehaviour
         return false;
     }
 
+    public bool RemoveItem(ItemData item, int amount)
+    {
+        int remaining = amount;
+
+        // วนผ่านช่องทั้งหมดเพื่อหาช่องที่มีไอเทมเดียวกัน
+        for (int i = 0; i < slots.Count; i++)
+        {
+            InventorySlot slot = slots[i];
+
+            if (slot != null && slot.item == item)
+            {
+                if (slot.amount <= remaining)
+                {
+                    // เอาออกทั้งหมด แล้วเคลียร์ช่อง
+                    remaining -= slot.amount;
+                    slots[i] = null;
+                }
+                else
+                {
+                    // เอาออกบางส่วน
+                    slot.amount -= remaining;
+                    remaining = 0;
+                }
+
+                // ลบครบแล้ว
+                if (remaining <= 0)
+                {
+                    UpdateUI();
+                    Debug.Log($"Removed {amount}x {item.itemName}");
+                    return true;
+                }
+            }
+        }
+
+        // ถ้ามาถึงตรงนี้แปลว่าลบได้ไม่ครบ
+        int removed = amount - remaining;
+        UpdateUI();
+        Debug.LogWarning($"Only removed {removed}x {item.itemName}. Not enough items in inventory.");
+        return false;
+    }
+
     public void SortInventory()
     {
         // นำไอเทมที่มีอยู่จริงมาจัดเรียง (ข้ามช่องว่าง)
